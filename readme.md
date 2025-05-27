@@ -33,6 +33,17 @@ https://udemy.com/course/argo-cd-essential-guide-for-end-users-with-practice
 - 5 - Intro to Argo CD
 
   - <ins>**Argo CD is deployed on top of kubernetes cluster as containers.**</ins>
+  - It has a controller and track the manifest (yaml files) by plling from the source of truth(github) and keep in sync with destination cluster.
+  - ArgoCD is not a CI tool. CI tools are like GitLab CI, Azure Pipelines or Github Actions. ArgoCd is CD tool [slide page 16](/argo-cd-slides.pdf#page=16).
+  -  ArgoCD VS Traditional CD tools
+
+      - [slide page 17](/argo-cd-slides.pdf#page=17)
+      1. CI tools 
+      2. build & unit test 
+      3. Create docker image 
+      4. The new docker image published to registry 
+      5. The deployment script (yaml file) in the source control get updated (automatically - need work to do automatically) with latest docker image with tag. 
+      6. Finally `kubectl apply ...` command runs the complete the deployment
 
 - 6 - Core Concepts
 - 7 - Argo CD Architecture Overview
