@@ -33,17 +33,32 @@ https://udemy.com/course/argo-cd-essential-guide-for-end-users-with-practice
 - 5 - Intro to Argo CD
 
   - <ins>**Argo CD is deployed on top of kubernetes cluster as containers.**</ins>
-  - It has a controller and track the manifest (yaml files) by plling from the source of truth(github) and keep in sync with destination cluster.
+  - It has a controller and track the manifest (yaml files) by pulling from the source of truth(github) and keep in sync with destination cluster.
   - ArgoCD is not a CI tool. CI tools are like GitLab CI, Azure Pipelines or Github Actions. ArgoCd is CD tool [slide page 16](/argo-cd-slides.pdf#page=16).
-  -  ArgoCD VS Traditional CD tools
+  - ArgoCD VS Traditional CD tools
 
-      - [slide page 17](/argo-cd-slides.pdf#page=17)
-      1. CI tools 
-      2. build & unit test 
-      3. Create docker image 
-      4. The new docker image published to registry 
-      5. The deployment script (yaml file) in the source control get updated (automatically - need work to do automatically) with latest docker image with tag. 
-      6. Finally `kubectl apply ...` command runs the complete the deployment
+    1. Traditional tools
+
+        1. [slide page 17](/argo-cd-slides.pdf#page=17)
+        2. CI tools, that will build code & run unit test.
+        3. Create docker image.
+        4. The new docker image published to registry.
+        5. The deployment script (yaml file) in the source control get updated (automatically - need work to do automatically) with latest docker image with tag.
+        6. Finally `kubectl apply ...` command runs the complete the deployment
+
+            1. To finally apply changes with the above command, we need three things. We need to install `kubectl`, `helm` and allow permission to cluster onto this CICD agent. This could be a security concern.
+
+    2. ArgoCD approach
+
+        1. [slide page 17](/argo-cd-slides.pdf#page=19)
+        2. Same process till step 5 above.
+        3. Finally instead of applying changes, `argoCD which run in the k8s cluster itself will pull and compare the changed configuration and keeping syncing to desired state.`
+
+            1. How does the ArgoCD deploy after pull the changes ????? is it argoCD have all kubectl and other necessary software installed by itself or HOW ???
+        4. State visibility in UI is available.
+        5. Easy rollback
+        6. Granting the needed access to deploy into the destination cluster and instead of granting CI/CD agents or administrators.
+        7. ArgoCD also provide Disaster recovery solution. You can easily deploy the same app to any k8s cluster.
 
 - 6 - Core Concepts
 - 7 - Argo CD Architecture Overview
