@@ -61,7 +61,32 @@ https://udemy.com/course/argo-cd-essential-guide-for-end-users-with-practice
         7. ArgoCD also provide Disaster recovery solution. You can easily deploy the same app to any k8s cluster.
 
 - 6 - Core Concepts
+
+  1. It will only have two major components 1. Application (source of manifest) & 2. Destination
+  2. Supported application source tools are [slide page 31](/argo-cd-slides.pdf#page=31)
+      1. Helm Chart
+      2. Customize
+      3. Directory of yaml files
+      4. jsonnet
+  3. In ArgoCD there is a concept called "Project". It is logical grouping of applications. By it creates a default project by default. Project is useful when used by multiple teams [slide page 32](/argo-cd-slides.pdf#page=32)
+  4. Sync - process of making desired state = actual state
+  5. Refresh (or Compare) - compare the latest code on git with the live state. It `automatically freshness every 3 mn`.
+
 - 7 - Argo CD Architecture Overview
+
+  - All ArgoCd components will be running on pods. It consist of three components [slide page 24](/argo-cd-slides.pdf#page=24)
+      1. ArgoGoCD Server (API + Web Server)
+          - It is the only component that you need to interact with.
+          - It support gRPC and REST. And these are consumed by ArgoCD Web UI and CLI. It controls everything like create, update, delete, sync rollback and authentication.  [slide page 25](/argo-cd-slides.pdf#page=25)
+      2. ArgoCD Repo server
+          - It is an internal service responsible for 1. Cloning and 2. Generating k8s manifest.
+      3. ArgoCD Application Controller [slide page 27](/argo-cd-slides.pdf#page=27)
+          - Its the k8s controller which keep monitoring running applications and compares the actual states in the destination cluster with the desired state
+          - It get the reports so that it can communicate with the server to generate the manifest.
+          - ALSO, it communicate with the K8s API to get the actual state and deploy the application manifest to the destination cluster.
+          - Take corrective action and detect outof-sync apps.
+      4. There are other supportive component like Redis cache, `Dex` ( identity service that integrates with external identity providers like Git) and lastly `Application Set` Controller who is responsible for automatically generation of seed apps. [slide page 29](/argo-cd-slides.pdf#page=29)
+
 - 1 - Section Quiz
 
 ## Setting-Up Argo CD
