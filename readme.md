@@ -68,23 +68,30 @@ https://udemy.com/course/argo-cd-essential-guide-for-end-users-with-practice
       2. Customize
       3. Directory of yaml files
       4. jsonnet
+  
   3. In ArgoCD there is a concept called "Project". It is logical grouping of applications. By it creates a default project by default. Project is useful when used by multiple teams [slide page 32](/argo-cd-slides.pdf#page=32)
+  
   4. Sync - process of making desired state = actual state
+  
   5. Refresh (or Compare) - compare the latest code on git with the live state. It `automatically freshness every 3 mn`.
 
 - 7 - Argo CD Architecture Overview
 
   - All ArgoCd components will be running on pods. It consist of three components [slide page 24](/argo-cd-slides.pdf#page=24)
+
       1. ArgoGoCD Server (API + Web Server)
           - It is the only component that you need to interact with.
           - It support gRPC and REST. And these are consumed by ArgoCD Web UI and CLI. It controls everything like create, update, delete, sync rollback and authentication.  [slide page 25](/argo-cd-slides.pdf#page=25)
+
       2. ArgoCD Repo server
           - It is an internal service responsible for 1. Cloning and 2. Generating k8s manifest.
+
       3. ArgoCD Application Controller [slide page 27](/argo-cd-slides.pdf#page=27)
           - Its the k8s controller which keep monitoring running applications and compares the actual states in the destination cluster with the desired state
           - It get the reports so that it can communicate with the server to generate the manifest.
           - ALSO, it communicate with the K8s API to get the actual state and deploy the application manifest to the destination cluster.
           - Take corrective action and detect outof-sync apps.
+
       4. There are other supportive component like Redis cache, `Dex` ( identity service that integrates with external identity providers like Git) and lastly `Application Set` Controller who is responsible for automatically generation of seed apps. [slide page 29](/argo-cd-slides.pdf#page=29)
 
 - 1 - Section Quiz
@@ -92,7 +99,38 @@ https://udemy.com/course/argo-cd-essential-guide-for-end-users-with-practice
 ## Setting-Up Argo CD
 
 - 8 - Installation options
+
+  - [slide page 37](/argo-cd-slides.pdf#page=37)
+  - Need any running cluster. `Can also done on MiniKube cluster`, Docker Desktop, Kind, Rancher Desktop or Full Cluster. There are three options for installation.
+
+    - Non-Highly available setup.
+      - (suitable for dev or test evn or evaluation). `It will install only one pod for each components only.`
+        - cluster-admin privileges: https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+        - namespace level privileges: https://github.com/argoproj/argo-cd/raw/stable/manifests/namespace-install.yaml
+
+    - Highly available setup.
+      - Recommended for prod
+      - you need at least 3 worker nodes in k8s cluster.
+        - cluster-admin privileges: https://github.com/argoproj/argo-cd/raw/stable/manifests/ha/install.yaml
+        - namespace level privileges: https://github.com/argoproj/argo-cd/raw/stable/manifests/ha/namespace-install.yaml
+
+    - Light installation "Core"
+      - Suitable if ArgoCD will be used by administrators only.
+      - It install without UI and API server
+      - It install by default as non-highly available setup
+      - https://github.com/argoproj/argo-cd/raw/stable/manifests/core-install.yaml
+
+  - On Privileges or Permission options, it has two options [slide page 39](/argo-cd-slides.pdf#page=39)
+    1. Cluster-Admin privilege - where ArgoCD has the cluster-admin access to deploy into the cluster that runs in.
+    2. Namespace level privileges - You can use this if you are planning to use ArgoCD without deploying into the same cluster that ArgoCD runs in.
+
+  - Manifest Installation options
+    - Yaml Manifests - https://github.com/argoproj/argo-cd/blob/master/manifests/install.yaml
+    - Helm chart: https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
+
 - 9 - Notes: Installation options
+
+    - [screen shot](/009-Installation%20options.jpg)
 - 10 - Demo: Non-HA Setup
 - 11 - Demo: Getting Initial Admin Password
 - 12 - Practice (Interactive) - Non HA Setup
