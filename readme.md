@@ -103,32 +103,32 @@ https://udemy.com/course/argo-cd-essential-guide-for-end-users-with-practice
 ### - 8 - Installation options
 
 - [slide page 37](/argo-cd-slides.pdf#page=37)
-  - Need any running cluster. `Can also done on MiniKube cluster`, Docker Desktop, Kind, Rancher Desktop or Full Cluster. There are three options for installation.
+- Need any running cluster. `Can also done on MiniKube cluster`, Docker Desktop, Kind, Rancher Desktop or Full Cluster. There are three options for installation.
 
-    - Non-Highly available setup.
-      - (suitable for dev or test evn or evaluation). `It will install only one pod for each components only.`
-        - cluster-admin privileges: https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-        - namespace level privileges: https://github.com/argoproj/argo-cd/raw/stable/manifests/namespace-install.yaml
+  - Non-Highly available setup.
+    - (suitable for dev or test evn or evaluation). `It will install only one pod for each components only.`
+      - cluster-admin privileges: https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+      - namespace level privileges: https://github.com/argoproj/argo-cd/raw/stable/manifests/namespace-install.yaml
 
-    - Highly available setup.
-      - Recommended for prod
-      - you need at least 3 worker nodes in k8s cluster.
-        - cluster-admin privileges: https://github.com/argoproj/argo-cd/raw/stable/manifests/ha/install.yaml
-        - namespace level privileges: https://github.com/argoproj/argo-cd/raw/stable/manifests/ha/namespace-install.yaml
+  - Highly available setup.
+    - Recommended for prod
+    - you need at least 3 worker nodes in k8s cluster.
+      - cluster-admin privileges: https://github.com/argoproj/argo-cd/raw/stable/manifests/ha/install.yaml
+      - namespace level privileges: https://github.com/argoproj/argo-cd/raw/stable/manifests/ha/namespace-install.yaml
 
-    - Light installation "Core"
-      - Suitable if ArgoCD will be used by administrators only.
-      - It install without UI and API server
-      - It install by default as non-highly available setup
-      - https://github.com/argoproj/argo-cd/raw/stable/manifests/core-install.yaml
+  - Light installation "Core"
+    - Suitable if ArgoCD will be used by administrators only.
+    - It install without UI and API server
+    - It install by default as non-highly available setup
+    - https://github.com/argoproj/argo-cd/raw/stable/manifests/core-install.yaml
 
-  - On Privileges or Permission options, it has two options [slide page 39](/argo-cd-slides.pdf#page=39)
-    1. Cluster-Admin privilege - where ArgoCD has the cluster-admin access to deploy into the cluster that runs in.
-    2. Namespace level privileges - You can use this if you are planning to use ArgoCD without deploying into the same cluster that ArgoCD runs in.
+- On Privileges or Permission options, it has two options [slide page 39](/argo-cd-slides.pdf#page=39)
+  1. Cluster-Admin privilege - where ArgoCD has the cluster-admin access to deploy into the cluster that runs in.
+  2. Namespace level privileges - You can use this if you are planning to use ArgoCD without deploying into the same cluster that ArgoCD runs in.
 
-  - Manifest Installation options
-    - Yaml Manifests - https://github.com/argoproj/argo-cd/blob/master/manifests/install.yaml
-    - Helm chart: https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
+- Manifest Installation options
+  - Yaml Manifests - https://github.com/argoproj/argo-cd/blob/master/manifests/install.yaml
+  - Helm chart: https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
 
 ### - 9 - Notes: Installation options
 
@@ -165,13 +165,42 @@ https://udemy.com/course/argo-cd-essential-guide-for-end-users-with-practice
 
 - Run `kubectl get svc -n argocd` and find the service name `argocd-server` (remember prefix argocd is your namespace it can be change)
 - `kubectl port-forward svc/argocd-server -n argocd 8080:443` open browser https://localhost:8080/
-- Get the password from step [11](#--11---demo-getting-initial-admin-password), user name will be `admin` by default.
+- Get the password from [lecture 11](#--11---demo-getting-initial-admin-password), user name will be `admin` by default.
 
 ### - 16 - Install ArgoCD CLI
 
+- We can interact with ArgoCD in three ways, UI, CLI and API/gRPC
+- CLI is useful when you need to inexact with ArgoCD in CI pipeline or any automation. [slide page 47](/argo-cd-slides.pdf#page=47)
+- What CLI can do
+  - Manage applications.
+  - Manage Repos.
+  - Manage clusters.
+  - Admin tasks (such as export/import data or backup restore etc)
+  - Manage projects.
+  - and more...
+- How to install - [slide page 49](/argo-cd-slides.pdf#page=49)
+- After installation need to login (using admin user name and password) before any command. For login we may need to do port forward, or LoadBalancer as mentioned earlier [lecture 13](#--13---accessing-argocd-server) so that server is reachable.
+  - `argocd login [ArgoCD server]`  
+  - then `argocd cluster list`
+
 ### - 17 - Notes: CLI Installation instructions
 
+ - Follow official docs for your preferred platform (linux or mac or windows)
+ - https://argo-cd.readthedocs.io/en/stable/cli_installation/
+
 ### - 18 - Demo: Installing CLI
+
+- Installation in windows, it will take appx 3 min.
+
+```
+$version = (Invoke-RestMethod https://api.github.com/repos/argoproj/argo-cd/releases/latest).tag_name
+
+$url = "https://github.com/argoproj/argo-cd/releases/download/" + $version + "/argocd-windows-amd64.exe"
+
+Invoke-WebRequest -Uri $url -OutFile $output
+```
+
+- [Screen shot](</018_CLI connecting to ArgoCD server.png>)
 
 ### - 19 - Practice (Interactive) - Installing CLI
 
