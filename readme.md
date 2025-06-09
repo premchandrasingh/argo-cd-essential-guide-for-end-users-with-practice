@@ -210,9 +210,30 @@ Invoke-WebRequest -Uri $url -OutFile $output
 
 ### - 20 - Defining Applications
 
+- ArgoCD application is a Kubernetes resource object representing a deployed application instance. It is defined by source manifest(desired state in Git) and Destination (the current or target state)
+- ArgoCD Application can be created in three ways
+  - Declarative approach (Recommended)
+  - Using Web UI
+  - Using CLI
+
+- Example Declarative approach - [slide page 55](/argo-cd-slides.pdf#page=55). The source => path in the slide could be directory (if yaml) or helm chart or customize
+- Example Web UI approach - [slide page 56](/argo-cd-slides.pdf#page=56)
+- Example CLI - [slide page 57](/argo-cd-slides.pdf#page=57)
+
 ### - 21 - Notes: Demo Resources Links
 
 ### - 22 - Demo: Creating an Application Declaratively using Yaml
+
+- Application yaml file:
+  - https://github.com/premchandrasingh/argocd-course-apps-definitions/blob/main/applications%20and%20projects/application.yaml
+
+- Source: Directory manifest
+  - https://github.com/premchandrasingh/argocd-example-apps/tree/master/guestbook
+
+Let create
+
+- Create the application `kubectl apply -f application.yaml`
+- Check the result `kubectl get application -n argocd`.   You can also check with UI or argo CLI command `argocd app list`. By default ArgoCD does not sync therefore will be `OutOfSync`, need manual sync. [Screen shot](/022_create_application_declaratively.png)
 
 ### - 23 - Practice (Interactive) - Creating an Application Declaratively
 
@@ -220,35 +241,85 @@ Invoke-WebRequest -Uri $url -OutFile $output
 
 ### - 25 - Demo: Creating an Application Using Web UI
 
+- Check [Lecture 13](#--13---accessing-argocd-server) for enabling UI access. In local you probably go with port forwarding.
+- Start with `Create APP` on top left of ArgoCD UI.
+
 ### - 26 - Practice (Interactive) - Creating an Application Using Web UI
 
 ### - 27 - Notes: CLI
 
 ### - 28 - Demo: Creating an Application Using CLI
 
+- [slide page 60](/argo-cd-slides.pdf#page=60)
+
+```
+argocd app create app-2 -repo https://github.com/premchandrasingh/argocd-example-apps.git --revision master --path guestbook --dest-server https://kubernetes.default.svc --dest-namespace app-2 --sync-option CreateNamespace=true
+```
+
+- Check with the command `argocd app list`
+- Now sync `argocd app sync app-2`
+
 ### - 29 - Practice (Interactive) - Creating an Application Using CLI
 
 ### - 30 - Tools Detection
 
+- When writing ArgoCD Application yaml, we can use different tools according to our convenience. [slide page 62](/argo-cd-slides.pdf#page=62)
+- In application definition you can explicitly specify the application tool and each tool has its own options.
+  - Directory of yaml files - Example [slide page 63](/argo-cd-slides.pdf#page=63)
+  - Helm Chart - Example [slide page 64](/argo-cd-slides.pdf#page=64)
+  - Kustomize - Example [slide page 65](/argo-cd-slides.pdf#page=65)
+  - jsonnet. - Example N/A
+
+- It is also possible tool is not explicitly specify but detected automatically [slide page 66-67](/argo-cd-slides.pdf#page=66).
+  - If application yaml contains Chart.yaml then ArgoCD consider it is Helm chart tool.
+  - If application yaml contains Kustomization.yaml or Kustomization.yml or Kustomization  then ArgoCD consider it is Helm chart tool.
+  - <ins>If above two points are not satisfied, ArgoCD assumed to as plain yaml Directory application.</ins>
+- You can explicitly specify application too in UI also [slide page 68](/argo-cd-slides.pdf#page=68)
+
 ### - 31 - Helm Options
 
+- What are the ArgoCD application Helm chart tool options
+- Helm application can be deployed from two Sources [slide page 70](/argo-cd-slides.pdf#page=70)
+  - Github repo - Example [slide page 71](/argo-cd-slides.pdf#page=71). `path` (a directory in the repo), `repoURL` and `targetRevision` (branch name, commit id etc) are required.
+  - Helm repo - Example [slide page 72](/argo-cd-slides.pdf#page=72)
+  - Check for options [slide page 73-78](/argo-cd-slides.pdf#page=73)
+
 ### - 32 - Demo: Helm Options
+
+- Options example manifest (repo directory contains Chart.yaml file) - https://github.com/mabusaa/argocd-example-apps/tree/master/helm-guestbook
+- Application example - [application - Helm options.yaml](https://github.com/mabusaa/argocd-course-apps-definitions/blob/main/applications%20and%20projects/application%20-%20Helm%20options.yaml)
+- `kubectl apply -f '.\application - Helm options.yaml'`
 
 ### - 33 - Practice (Interactive) - Helm Options
 
 ### - 34 - Directory of Files Options
 
+- Options for Directory of Files & jsonnet. - [slide page 81-84](/argo-cd-slides.pdf#page=81)
+
 ### - 35 - Demo: Directory Options
+
+- Options example manifest - https://github.com/mabusaa/argocd-example-apps/tree/master/guestbook-with-sub-directories
+- [github Application example](https://github.com/mabusaa/argocd-course-apps-definitions/blob/main/applications%20and%20projects/application%20-%20Directory%20options.yaml)
 
 ### - 36 - Practice (Interactive) - Directory Options
 
 ### - 37 - Kustomize Options
 
+- [slide page 86-93](/argo-cd-slides.pdf#page=86)
+
 ### - 38 - Demo: Kustomize Options
+
+- Kustomize example manifest (_folder contains kustomization.yaml_) - https://github.com/mabusaa/argocd-example-apps/tree/master/kustomize-guestbook
+- [github Application example](https://github.com/mabusaa/argocd-course-apps-definitions/blob/main/applications%20and%20projects/application%20-%20kustomize%20options.yaml)
 
 ### - 39 - Practice (Interactive) - Kustomize Options
 
 ### - 40 - Multiple Sources for an Application
+
+- <ins>Till ArgoCD 2.5, we can specify a single source per application. Source could be 1. git repository or  2. Helm repository.</ins>
+- <ins>Starting ArgoCD 2.6, we can specify resources stored in multiple repositories or helm repositories.</ins> [Screen shot](</040_1_starting argocd 2.6 multiple source supported.png>)
+  - Use case - If we need combine multiple resources in an application instead of creating multiple applications. For example Redis and the Prometheus exporter for Redis in one application.[Screen shot](</040_2_multiple source use case.png>)
+- _If multiple sources produce the same resource (like group, kind, name and namespace etc) the last source will take precedence._
 
 ### - 41 - Practice (Interactive) - Multiple Sources for an Application
 
