@@ -329,17 +329,59 @@ argocd app create app-2 -repo https://github.com/premchandrasingh/argocd-example
 
 ### - 42 - Why Projects
 
+- [slide page 95](/argo-cd-slides.pdf#page=95)
+- Project provide logical grouping to multiple applications
+- It can be use for access restriction when ArgoCD is used by multiple teams.
+- It can allow only specific **"trusted git repos"**
+- It can allow apps to be deployed into **specific cluster and namespace**.
+- It can allow only **specific resources** to be deployed like Deployments and Statefulsets etc
+- Project also have **Project Roles** that enables you to create a set of rules with a set of permission called **policies**.
+- <ins>By default ArgoCD creates a default project when we install it.</ins>
+
+
 ### - 43 - Creating Projects
+
+- [slide page 100](/argo-cd-slides.pdf#page=100)
+- [slide page 103](/argo-cd-slides.pdf#page=103) - specifying cluster server url and namespace.
+- [slide page 104](/argo-cd-slides.pdf#page=104) - Specifying only allowed git repo.
+- [slide page 105](/argo-cd-slides.pdf#page=105] - Deny all resources to create except "Namespace"
+- [slide page 106](/argo-cd-slides.pdf#page=106] - Denying all namespaced scoped resources except "Deployment".
+- [slide page 107](/argo-cd-slides.pdf#page=107) - Allow all namespaced scoped resources except "NetworkPolicy". Basically blacklisting "NetworkPolicy".
 
 ### - 44 - Demo: Creating Basic Project
 
+- [Github demo Project url](https://github.com/mabusaa/argocd-course-apps-definitions/blob/main/applications%20and%20projects/project.yaml)
+- [Git Application url](https://github.com/mabusaa/argocd-course-apps-definitions/blob/main/applications%20and%20projects/application%20-%20set%20project.yaml)
+- `kubectl get appproject -n ardocd` - Get project "appproject" under namespace(`-n`) "argocd". 
+- `kubectl get appproject -n ardocd -o yaml` - Get project and output(`-o`) as yaml.
+- In UI - go to left setting menu => find "Projects" section.
+
 ### - 45 - Demo: Creating a Project with Allowing Specific Destinations
 
+- [Git demo Project url](https://github.com/mabusaa/argocd-course-apps-definitions/blob/main/applications%20and%20projects/project%20-%20whitelist%20namespace.yaml)
+- [Git demo Application url](https://github.com/mabusaa/argocd-course-apps-definitions/blob/main/applications%20and%20projects/application%20-%20dev%20project.yaml)
+- `kubectl describe application myapp -n argocd` - Show full detail of "myapp" application.
 ### - 46 - Practice (Interactive) - Projects
 
 ### - 47 - Project Roles
 
+- [slide page 111](/argo-cd-slides.pdf#page=111)
+- [slide page 113](/argo-cd-slides.pdf#page=113) - Defining policy.
+  - _**"p, proj:demo-project:ci-role, applications, sync, demo-project/*, allow"**_.
+    - "demo-project" is project name
+    - "ci-role" is policy name. Together is is saying this policy is applying to the project
+    - "applications" is saying the policy is applicable to "applications" resource
+    - "sync" is saying the name of the action meaning "sync" can or can not be perform on the "applications"  resource. Actions can be "sync, get,create, delete, update, override" etc
+    - "demo-project/*, allow" is saying the action is allowed. Meaning "sync" is allowed to all "applications"
+- Project roles are only available in jwt token, they are not stored in ArgoCD;
+  - `argocd proj role create-token <PROJECT-NAME> <ROLE-NAME>` -  Create token using CLI.
+    - Example - `argocd proj role create-token demo-project ci-role` - Create jwt token for the above example project and role.
+- Example 1 - `argocd cluster list --auth-token token-value` - Using jwt token.
+- Example 2 - `argocd app delete myapp --auth-token <jwt token here>` - This example will be return permission denied as it was not allowed to delete (corresponding to above example)
+
 ### - 48 - Demo: Project Roles
+
+- [Git Example url](https://github.com/mabusaa/argocd-course-apps-definitions/blob/main/applications%20and%20projects/project%20-%20role.yaml)
 
 ### - 49 - Practice (Interactive) - Project Roles
 
