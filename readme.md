@@ -391,23 +391,43 @@ argocd app create app-2 -repo https://github.com/premchandrasingh/argocd-example
 
 ### - 50 - Private Git Repos
 
+- [slide page 117](/argo-cd-slides.pdf#page=117)
+- https://argo-cd.readthedocs.io/en/stable/user-guide/private-repositories/#github-app-credential
+
 ### - 51 - Note: K8s Secret for Argo CD Repos
 
 ### - 52 - Note: Practice Private Repos
 
 ### - 53 - Demo: Private Repos using Https
 
+- [Git example secret/private repo url](https://github.com/premchandrasingh/argocd-course-apps-definitions/blob/main/repos/private-repo-https.yaml)
+- [Git example Application url](https://github.com/premchandrasingh/argocd-course-apps-definitions/blob/main/applications%20and%20projects/application-with-private-repo.yaml)
+- You can check the secret added.
+  - Using CLI - `argocd get secret -n argocd`
+  - Using UI - Go go the left menu Settings => Repository section
+
 ### - 54 - Practice (Interactive) - Private Git Repos using Https
 
 ### - 55 - Demo: Private Repos using SSH
+
+- [Git example Application url](https://github.com/mabusaa/argocd-course-apps-definitions/blob/main/applications%20and%20projects/application-with-private-repo-ssh.yaml)
+- [Git example secret/private repo url](https://github.com/mabusaa/argocd-course-apps-definitions/blob/main/repos/private-repo-ssh.yaml)
 
 ### - 56 - Practice (Interactive) - Private Repos using SSH
 
 ### - 57 - Private Helm Repos
 
+- [slide page 126](/argo-cd-slides.pdf#page=126)
+
 ### - 58 - Credential Templates
 
+- [slide page 131](/argo-cd-slides.pdf#page=131)
+- <ins>Credential Templates is for - If we want to use the same credentials for multiple repositories without having to repeat the credential information for every repo.</ins>
+- It is declare as normal secret resource in Kubernetes [slide page 133](/argo-cd-slides.pdf#page=133).
+
 ### - 59 - Demo: Credential Templates
+
+- [Git Example url for Credential Templates](https://github.com/mabusaa/argocd-course-apps-definitions/blob/main/repos/private-repo-creds-https.yaml)
 
 ### - 60 - Practice (Interactive) - Credential Templates
 
@@ -417,37 +437,73 @@ argocd app create app-2 -repo https://github.com/premchandrasingh/argocd-example
 
 ### - 61 - Automated Sync
 
+- [slide page 137](/argo-cd-slides.pdf#page=137)
+- By default ArgoCD polls git repositories every 3 minutes to detect changes to the manifests.
+- An automated sync will only be performed if the application is "OutOfSync".
+- Rollback can not be performed for an application with the automated sync enabled.
+
 ### - 62 - Demo: Automated Sync
+
+- [Example Application for Automatic Sync](https://github.com/mabusaa/argocd-course-apps-definitions/blob/main/applications%20and%20projects/application%20-%20Automated%20Sync.yaml)
+  - ` automated: {}` is the required setting.
 
 ### - 63 - Practice (Interactive) - Automated Sync
 
 ### - 64 - Automated Pruning
 
+- [slide page 143](/argo-cd-slides.pdf#page=143)
+- When Automatic Sync is enabled, by default automatic prune is disabled. This is for safety reason.
+- But we can enable automatic pruning when automatic sync is enabled.
+
 ### - 65 - Demo: Automated Pruning
+
+- [Example Application for Automatic Prune](https://github.com/mabusaa/argocd-course-apps-definitions/blob/main/applications%20and%20projects/application%20-%20Automated%20Prune.yaml)
 
 ### - 66 - Practice (Interactive) - Automated Pruning
 
 ### - 67 - Automated Self-Healing
 
+- [slide page 150](/argo-cd-slides.pdf#page=150)
+
 ### - 68 - Demo: Automated Self-Healing
+
+- [Example Application for Automatic SelfHeal](https://github.com/mabusaa/argocd-course-apps-definitions/blob/main/applications%20and%20projects/application%20-%20Automated%20Self-Healing.yaml)
+- It will already tries to sync to desired state defined in the source even though it changes from CLI.
 
 ### - 69 - Practice (Interactive) - Automated Self-Healing
 
 ### - 70 - Sync Options
 
+- - [slide page 156](/argo-cd-slides.pdf#page=156)
+
 ### - 71 - Demo: No Prune at Resources Level
+
+- [slide page 173](/argo-cd-slides.pdf#page=173)
+- [Git Example manifest url](https://github.com/mabusaa/argocd-example-apps/tree/master/sync-options/no-prune)
+- [Git example Application url](https://github.com/mabusaa/argocd-course-apps-definitions/blob/main/applications%20and%20projects/sync-options/application%20-%20No%20prune.yaml)
 
 ### - 72 - Practice (Interactive) - No Prune At Resources Level
 
 ### - 73 - Demo: Selective Sync
 
+- [slide page 174](/argo-cd-slides.pdf#page=174)
+- Argo CD Application should only sync the changed manifests
+- [Git Example manifest url](https://github.com/mabusaa/argocd-example-apps/tree/master/sync-options/selective-sync)
+- [Git example Application url](https://github.com/mabusaa/argocd-course-apps-definitions/blob/main/applications%20and%20projects/sync-options/application%20-%20Selective%20Sync.yaml)
+
 ### - 74 - Practice (Interactive) - Selective Sync
 
 ### - 75 - Demo: Fail On Shared Resources
 
+- [Git example Application-1 url](https://github.com/mabusaa/argocd-course-apps-definitions/blob/main/applications%20and%20projects/sync-options/application%20-%20Fail%20On%20Shared%20Resources.yaml)
+- [Git example Application-2 url](https://github.com/mabusaa/argocd-course-apps-definitions/blob/main/applications%20and%20projects/application%20-%20set%20project.yaml)
+
 ### - 76 - Practice (Interactive) - Fail on Shared Resources
 
 ### - 77 - Demo: Replace Resources
+
+- [Git example manifest url](https://github.com/mabusaa/argocd-example-apps/tree/master/sync-options/replace)
+- [Git example Application url](https://github.com/mabusaa/argocd-course-apps-definitions/blob/main/applications%20and%20projects/sync-options/application%20-%20Replace.yaml)
 
 ### - 78 - Practice (Interactive) - Replace Resources
 
