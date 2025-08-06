@@ -513,17 +513,44 @@ argocd app create app-2 -repo https://github.com/premchandrasingh/argocd-example
 
 ### - 79 - Tracking Strategies
 
+- [slide page 177](/argo-cd-slides.pdf#page=177)
+
 ### - 80 - Demo: Tracking Git Tag
+
+- [slide page 186 - what we are going to do in demo](/argo-cd-slides.pdf#page=186)
+- [Git example Application url](https://github.com/mabusaa/argocd-course-apps-definitions/blob/main/applications%20and%20projects/tracking-strategies/application%20-%20tracking%20git%20tag.yaml)
+- [Demo output screen shot](/080_Tracking%20Git%20Tag.png)
 
 ### - 81 - Demo: Tracking Git Commit SHA
 
+- [slide page 187 - what we are going to do in demo](/argo-cd-slides.pdf#page=187)
+- [Git example Application url](https://github.com/mabusaa/argocd-course-apps-definitions/blob/main/applications%20and%20projects/tracking-strategies/application%20-%20tracking%20git%20commit%20sha.yaml)
+- [Demo output screen shot](/081-Tracking%20Git%20Commit%20SHA.png)
+
 ### - 82 - Demo: Tracking HEAD
+
+- [slide page 188 - what we are going to do in demo](/argo-cd-slides.pdf#page=188)
+- [Git example Application url](https://github.com/mabusaa/argocd-course-apps-definitions/blob/main/applications%20and%20projects/tracking-strategies/application%20-%20tracking%20git%20head.yaml)
+- If we enable the automated syncing and the head changed into another commit Id, argoCD will discover this change and sync the application again.
+- [Demo output screen shot](/082_Tracking%20HEAD.png)
 
 ### - 83 - Practice (Interactive) - Tracking Strategies for Git Repos
 
 ### - 84 - Demo: Tracking Helm Chart Range of Versions
 
+- [slide page 189 - what we are going to do in demo](/argo-cd-slides.pdf#page=189)
+- [Git example Application url](https://github.com/mabusaa/argocd-course-apps-definitions/blob/main/applications%20and%20projects/tracking-strategies/application%20-%20tracking%20helm%20range.yaml)
+- If we need to deploy specific version we can specify exact version like `1.16.1`  
+- If we need to deploy always the recent version of the major version one we can specify like `1.*`
+- if We want to set a range of desired version we can set like `>=3.0.0 <4.1.0`
+- [Demo output screen shot](/084_Tracking%20Helm%20Chart%20Range%20of%20Versions.png)
+
 ### - 85 - Demo: Tracking Helm Chart Latest Version
+
+- [slide page 190 - what we are going to do in demo](/argo-cd-slides.pdf#page=190)
+- [Git example Application url](https://github.com/mabusaa/argocd-course-apps-definitions/blob/main/applications%20and%20projects/tracking-strategies/application%20-%20tracking%20helm%20latest%20version.yaml)
+- If we want to always track the Ingress Nginx Controller latest version. So in the target revision, I set the value as star (*). So if any version of this chart is released, it will be detected by CD and deployed accordingly.
+- [Demo output screen shot](/085_Tracking%20Helm%20Chart%20Latest%20Version.png)
 
 ### - 86 - Practice (Interactive) - Tracking Strategies for Helm Charts
 
