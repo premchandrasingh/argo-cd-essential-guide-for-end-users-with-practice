@@ -560,9 +560,29 @@ argocd app create app-2 -repo https://github.com/premchandrasingh/argocd-example
 
 ### - 87 - Diffing Customization
 
+
+- [slide page 191](/argo-cd-slides.pdf#page=191)
+- There are some cases that you sync your application and it directly goes into out of sync because there are some problems in the resources and manifests.
+- Diffing customization can be configured at the application level to affect one application or multiple applications or at the system level so it can affect all applications.
+- Where there is difference or conflict we have some options to deal with the difference [slide page 193](/argo-cd-slides.pdf#page=193)
+- [slide page 194](/argo-cd-slides.pdf#page=194) In this example, we want to ignore the replicas and all deployments in this application. So we defined the group as apps and the kind as deployment and the JSON pointers that exist in the deployment specification. We want to ignore the replicas which it exists at spec replicas.
+- And also we can ignore a specific resource by name. So we want to ignore the replicas in the deployment with name guestbook [slide page 195](/argo-cd-slides.pdf#page=195).
+- For JQ expressions.
+  - If we want to ignore some list of items based on item content. For example, we want to ignore the init containers with name injected in it container [slide page 196](/argo-cd-slides.pdf#page=196).
+  - For ignoring differences by specific managers. We can mention the manager in the managed fields managers. So this example means that it will ignore the differences from all fields owned by Q Control or manager [slide page 197](/argo-cd-slides.pdf#page=197).
+- The functionality to ignore differences can actually be configured at both the application and system levels. Understanding this distinction is essential for effective management of system settings and troubleshooting issues. Recognizing where configurations can be made is key to maintaining system integrity and flexibility
+- We can indeed use ignore fields that are owned by specific managers, allowing for greater flexibility in managing system configurations. This understanding is essential as it relates directly to effectively customizing resource management protocols.
+
 ### - 88 - Demo: Diffing Customization Demo
 
+- [slide page 197 - what we are going to do in demo](/argo-cd-slides.pdf#page=197)
+- [Git example Application url](https://github.com/mabusaa/argocd-course-apps-definitions/blob/main/applications%20and%20projects/application%20-%20Diffing%20Customization.yaml)
+- [Git example Manifest url](https://github.com/mabusaa/argocd-example-apps/tree/master/guestbook-with-sub-directories)
+
 ### - 89 - Demo: Diffing Customization, Istio Case
+
+- [slide page 198 - what we are going to do in demo](/argo-cd-slides.pdf#page=198)
+- [Git example Application url](https://github.com/mabusaa/argocd-course-apps-definitions/blob/main/applications%20and%20projects/application%20-%20Diffing%20Customization%20for%20istio.yaml)
 
 ### - 8 - Section Quiz
 
